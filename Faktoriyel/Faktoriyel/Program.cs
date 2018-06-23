@@ -37,10 +37,26 @@ namespace Faktoriyel
                 goto soru;
             }
 
-            for (int i = 1; i <= sayi; i++)
+            secim:
+            SetConsoleQuestion();
+            int yontem;
+            Console.Write($"Hesaplama yöntemini seçiniz.\n1. Recursive Fonksyon\n2. for Döngüsü\nSeçimi Giriniz: ");
+            readLine = Console.ReadLine();
+            if (!Int32.TryParse(readLine, out yontem))
             {
-                sonuc *= i;
+                SetConsoleError();
+                Console.WriteLine("Girilen değer sayı değildir.");
+                goto secim;
             }
+
+            if (!(yontem == 1 || yontem == 2))
+            {
+                SetConsoleError();
+                Console.WriteLine("Girilen değer 1 veya 2 olmak zorunda");
+                goto secim;
+            }
+
+            sonuc = yontem == 1 ? FaktoriyelRec(sayi) : Faktoriyel(sayi);
 
             SetConsoleAnswer();
             Console.WriteLine($"Girilen sayının ({sayi}) hesaplanan faktöriyel değeri: {sonuc}");
@@ -75,6 +91,28 @@ namespace Faktoriyel
         {
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
+        }
+
+        static double FaktoriyelRec(int n)
+        {
+            if (n <= 1)
+            {
+                return n;
+            }
+
+            return n * FaktoriyelRec(n - 1);
+        }
+
+        static double Faktoriyel(int n)
+        {
+            double sonuc = 1;
+
+            for (int i = 1; i <= n; i++)
+            {
+                sonuc *= i;
+            }
+
+            return sonuc;
         }
     }
 }
